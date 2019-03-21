@@ -1,0 +1,19 @@
+variables:
+  REGISTRY_HOST: hub.irontec.com
+
+stages:
+  - build
+
+before_script:
+- docker info
+- docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $REGISTRY_HOST
+
+build:
+  stage: build
+  tags:
+    - docker
+    - internet
+  script:
+    - docker build -t $REGISTRY_HOST/$CI_PROJECT_PATH/php-fpm:$CI_BUILD_REF -t $REGISTRY_HOST/$CI_PROJECT_PATH/php-fpm:latest .
+    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/php-fpm:$CI_BUILD_REF
+    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/php-fpm:latest
