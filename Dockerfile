@@ -97,3 +97,7 @@ RUN mkdir /home/docker \
     && useradd -u ${UID} -r -g docker -d /home/docker -s /bin/bash -c "Docker user" docker \
     && echo "docker:docker" | chpasswd \
     && chown -R docker:docker /home/docker
+
+COPY docker-php-entrypoint /usr/local/bin/
+
+USER docker
