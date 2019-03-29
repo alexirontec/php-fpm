@@ -99,5 +99,6 @@ RUN mkdir /home/docker \
     && chown -R docker:docker /home/docker
 
 COPY docker-php-entrypoint /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-php-entrypoint
 
 USER docker
