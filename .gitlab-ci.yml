@@ -8,12 +8,32 @@ before_script:
 - docker info
 - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $REGISTRY_HOST
 
-build:
+build:7.3.3:
   stage: build
   tags:
     - docker
     - internet
   script:
-    - docker build -t $REGISTRY_HOST/$CI_PROJECT_PATH/php-fpm:$CI_BUILD_REF -t $REGISTRY_HOST/$CI_PROJECT_PATH/php-fpm:latest .
-    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/php-fpm:$CI_BUILD_REF
-    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/php-fpm:latest
+    - docker build --build-arg PHP_VERSION=7.3.3 -t $REGISTRY_HOST/$CI_PROJECT_PATH/7.3.3:$CI_BUILD_REF -t $REGISTRY_HOST/$CI_PROJECT_PATH/7.3.3:latest .
+    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/7.3.3:$CI_BUILD_REF
+    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/7.3.3:latest
+
+build:7.1.27:
+  stage: build
+  tags:
+    - docker
+    - internet
+  script:
+    - docker build --build-arg PHP_VERSION=7.1.27 -t $REGISTRY_HOST/$CI_PROJECT_PATH/7.1.27:$CI_BUILD_REF -t $REGISTRY_HOST/$CI_PROJECT_PATH/7.1.27:latest .
+    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/7.1.27:$CI_BUILD_REF
+    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/7.1.27:latest
+
+build:7.0.1:
+  stage: build
+  tags:
+    - docker
+    - internet
+  script:
+    - docker build --build-arg PHP_VERSION=7.0.1 -t $REGISTRY_HOST/$CI_PROJECT_PATH/7.0.1:$CI_BUILD_REF -t $REGISTRY_HOST/$CI_PROJECT_PATH/7.0.1:latest .
+    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/7.0.1:$CI_BUILD_REF
+    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/7.0.1:latest
