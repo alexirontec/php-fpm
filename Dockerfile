@@ -88,7 +88,7 @@ ADD ini/www.conf         /usr/local/etc/php-fpm.d/www.conf
 ADD ini/www.conf.default /usr/local/etc/php-fpm.d/www.conf.default
 ADD ini/xdebug.ini       /usr/local/etc/php/conf.d/xdebug.ini
 ADD ini/zlib.ini         /usr/local/etc/php/conf.d/zlib.ini
-ADD vimrc                /opt/.vimrc
+ADD vimrc                /home/docker/.vimrc
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
