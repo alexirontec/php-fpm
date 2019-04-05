@@ -88,7 +88,6 @@ ADD ini/www.conf         /usr/local/etc/php-fpm.d/www.conf
 ADD ini/www.conf.default /usr/local/etc/php-fpm.d/www.conf.default
 ADD ini/xdebug.ini       /usr/local/etc/php/conf.d/xdebug.ini
 ADD ini/zlib.ini         /usr/local/etc/php/conf.d/zlib.ini
-ADD vimrc                /home/docker/.vimrc
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -99,6 +98,7 @@ RUN mkdir /home/docker \
     && useradd -u ${UID} -r -g docker -d /home/docker -s /bin/bash -c "Docker user" docker \
     && echo "docker:docker" | chpasswd \
     && chown -R docker:docker /home/docker
+ADD vimrc /home/docker/.vimrc
 
 COPY docker-php-entrypoint /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-php-entrypoint
