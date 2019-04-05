@@ -6,6 +6,10 @@ if [ ! "${DOCKER_ENV_FILE}" = "" ]; then
     export $(grep -v '^$\|^\s*\#' ${DOCKER_ENV_FILE} | xargs -0)
 fi
 
+if [ ! "${DOCKER_HEALTHCHECK}" = "" ]; then
+    ${DOCKER_HEALTHCHECK}
+fi
+
 # first arg is `-f` or `--some-option`
 if [ "${1#-}" != "$1" ]; then
     set -- php-fpm "$@"
