@@ -35,3 +35,13 @@ build:7.1.27:
     - docker build --no-cache --build-arg PHP_VERSION=7.1.27 -t $REGISTRY_HOST/$CI_PROJECT_PATH/7.1.27:$CI_BUILD_REF -t $REGISTRY_HOST/$CI_PROJECT_PATH/7.1.27:latest .
     - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/7.1.27:$CI_BUILD_REF
     - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/7.1.27:latest
+
+build:7.0:
+  stage: build
+  tags:
+    - docker
+    - internet
+  script:
+    - docker build --no-cache --build-arg PHP_VERSION=7.0 -t $REGISTRY_HOST/$CI_PROJECT_PATH/7.0:$CI_BUILD_REF -t $REGISTRY_HOST/$CI_PROJECT_PATH/7.0:latest .
+    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/7.0:$CI_BUILD_REF
+    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/7.0:latest
