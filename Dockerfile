@@ -2,7 +2,6 @@ ARG PHP_VERSION=7.3.3
 
 FROM php:${PHP_VERSION}-fpm-stretch
 
-ARG XDEBUG=false
 ARG UID=1000
 ARG GID=1000
 
@@ -66,9 +65,6 @@ RUN docker-php-ext-enable imagick
 # Redis
 RUN pecl install redis
 RUN docker-php-ext-enable redis
-
-# Xdebug
-RUN if [ "${XDEBUG}" = "true" ] ; then /dev/null ; pecl install xdebug; docker-php-ext-enable xdebug; fi
 
 # Limpiar todo
 RUN apt autoremove --yes && apt clean
