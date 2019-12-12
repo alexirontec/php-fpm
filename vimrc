@@ -3,14 +3,36 @@ syntax on
 set background=dark
 set encoding=utf-8
 
+" >>> Start Powerline Settings
+
+set rtp+=/usr/local/lib/python2.7/site-packages/powerline/bindings/vim/
+set laststatus=2 "Status bar
+set t_Co=256
+
+set guifont=Inconsolata\ for\ Powerline:h15
+let g:Powerline_symbols = 'fancy'
+set encoding=utf-8
+set t_Co=256
+set fillchars+=stl:\ ,stlnc:\
+set term=xterm-256color
+set termencoding=utf-8
+
 " >>> Basic Vim
+
+set ignorecase
+set paste
+
+set wrap
+set textwidth=80
+set formatoptions=tcqrn1
+set noshiftround
 
 syntax enable                               " syntax highlight
 
 set t_Co=256                                " set 256 colors
 
 "set number                                  " show line numbers
-set ruler
+set ruler                                   " Show file stats
 set ttyfast                                 " terminal acceleration
 
 set tabstop=4                               " 4 whitespaces for tabs visual presentation
@@ -37,14 +59,11 @@ set clipboard=unnamed                       " use system clipboard
 set exrc                                    " enable usage of additional .vimrc files from working directory
 set secure                                  " prohibit .vimrc files to execute shell, create files, etc...
 
-set ignorecase
-set paste
+set nocompatible                            " Don't try to be vi compatible
+set modelines=0                             " Security
 
-set wrap
-set textwidth=80
-set formatoptions=tcqrn1
-set softtabstop=4
-set noshiftround
+filetype off                                " Helps force plugins to load correctly when it is turned back on below
+filetype plugin indent on                   " For plugins to load correctly
 
 " >>> TagBar settings
 

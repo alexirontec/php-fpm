@@ -1,6 +1,6 @@
 ARG PHP_VERSION=7.3.3
 
-FROM php:${PHP_VERSION}-fpm-stretch
+FROM php:${PHP_VERSION}
 
 ARG UID=1000
 ARG GID=1000
@@ -25,7 +25,7 @@ RUN apt update && apt --yes upgrade
 
 # Install required dependencies
 RUN apt install --yes --no-install-suggests --no-install-recommends \
-    openssl sudo apt-utils
+    openssl sudo apt-utils libonig-dev
 
 # Install dependencies for the image processing
 RUN apt install --yes --no-install-suggests --no-install-recommends \
@@ -40,11 +40,14 @@ RUN docker-php-ext-configure pdo_mysql --with-pdo-mysql
 RUN docker-php-ext-install   pdo_mysql
 
 # Mbstring
-RUN docker-php-ext-configure mbstring --enable-mbstring
+RUN docker-php-ext-configure mbstring --enable-mbstring=all
 RUN docker-php-ext-install   mbstring
 
 # GD
-RUN docker-php-ext-configure gd --enable-gd-native-ttf --with-jpeg-dir=/usr/lib --with-freetype-dir=/usr/include/
+# RUN docker-php-ext-configure gd --enable-gd-native-ttf --with-jpeg-dir=/usr/lib --with-freetype-dir=/usr/include/
+# RUN docker-php-ext-install   gd
+
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-install   gd
 
 # intl
@@ -88,6 +91,7 @@ ADD ini/zlib.ini         /usr/local/etc/php/conf.d/zlib.ini
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer --version
+ENV COMPOSER_CACHE_DIR=/dev/null
 
 RUN mkdir /home/docker \
     && groupadd -r docker -g ${GID} \
