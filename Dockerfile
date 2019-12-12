@@ -5,99 +5,91 @@ FROM php:${PHP_VERSION}
 ARG UID=1000
 ARG GID=1000
 
-RUN apt update && apt upgrade --yes
-RUN apt autoremove --yes
-
-RUN apt remove --yes mysql* mariadb*
-RUN apt autoremove --yes
-
-# Install required dependencies
-RUN apt install --yes --no-install-suggests --no-install-recommends \
-    curl unzip wget vim tree ccze git gnupg apt-transport-https
-
-RUN echo "deb http://repo.mysql.com/apt/debian/ stretch mysql-5.7\n\
-deb-src http://repo.mysql.com/apt/debian/ stretch mysql-5.7" >> /etc/apt/sources.list.d/mysql.list
-
-RUN wget -O /tmp/RPM-GPG-KEY-mysql https://repo.mysql.com/RPM-GPG-KEY-mysql
-RUN apt-key add /tmp/RPM-GPG-KEY-mysql
-
-RUN apt update && apt --yes upgrade
+RUN apt update && \
+    apt upgrade --yes && \
+    apt autoremove --yes && \
+    apt remove --yes mysql* mariadb* && \
+    apt autoremove --yes && \
 
 # Install required dependencies
-RUN apt install --yes --no-install-suggests --no-install-recommends \
-    openssl sudo apt-utils libonig-dev
+    apt install --yes --no-install-suggests --no-install-recommends \
+        apt-transport-https apt-utils ccze curl git gnupg libonig-dev unzip openssl sudo  tree wget vim && \
+
+# Install MySQL 
+    echo "deb http://repo.mysql.com/apt/debian/ stretch mysql-5.7\n\
+deb-src http://repo.mysql.com/apt/debian/ stretch mysql-5.7" >> /etc/apt/sources.list.d/mysql.list && \
+
+    wget -O /tmp/RPM-GPG-KEY-mysql https://repo.mysql.com/RPM-GPG-KEY-mysql && \
+    apt-key add /tmp/RPM-GPG-KEY-mysql && \
+    apt update && apt --yes upgrade && \
 
 # Install dependencies for the image processing
-RUN apt install --yes --no-install-suggests --no-install-recommends \
-    libfreetype6-dev libjpeg-dev libpng-dev
+    apt install --yes --no-install-suggests --no-install-recommends \
+        libfreetype6-dev libjpeg-dev libpng-dev && \
 
 # Others
-RUN apt install --yes --no-install-suggests --no-install-recommends \
-    libicu-dev libmcrypt-dev libzip-dev zlib1g-dev mysql-client
+    apt install --yes --no-install-suggests --no-install-recommends \
+        libicu-dev libmcrypt-dev libzip-dev zlib1g-dev mysql-client && \
 
 # MySQL PDO
-RUN docker-php-ext-configure pdo_mysql --with-pdo-mysql
-RUN docker-php-ext-install   pdo_mysql
+    docker-php-ext-configure pdo_mysql --with-pdo-mysql && \
+    docker-php-ext-install   pdo_mysql && \
 
 # Mbstring
-RUN docker-php-ext-configure mbstring --enable-mbstring=all
-RUN docker-php-ext-install   mbstring
+    docker-php-ext-configure mbstring --enable-mbstring=all && \
+    docker-php-ext-install   mbstring && \
 
 # GD
-# RUN docker-php-ext-configure gd --enable-gd-native-ttf --with-jpeg-dir=/usr/lib --with-freetype-dir=/usr/include/
-# RUN docker-php-ext-install   gd
-
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg
-RUN docker-php-ext-install   gd
+#    docker-php-ext-configure gd --enable-gd-native-ttf --with-jpeg-dir=/usr/lib --with-freetype-dir=/usr/include/ && \
+#    docker-php-ext-install   gd && \
+    docker-php-ext-configure gd --with-freetype --with-jpeg && \
+    docker-php-ext-install   gd && \
 
 # intl
-RUN docker-php-ext-configure intl
-RUN docker-php-ext-install   intl
+    docker-php-ext-configure intl && \
+    docker-php-ext-install   intl && \
 
-RUN docker-php-ext-install iconv
-RUN docker-php-ext-install mysqli
-RUN docker-php-ext-install opcache
-RUN docker-php-ext-install zip
-RUN docker-php-ext-install bcmath
+    docker-php-ext-install iconv   && \
+    docker-php-ext-install mysqli  && \
+    docker-php-ext-install opcache && \
+    docker-php-ext-install zip     && \
+    docker-php-ext-install bcmath && \
+
+# Pecl update
+    pecl update-channels && \
 
 # Imagick
-RUN apt install --yes --no-install-suggests --no-install-recommends libmagickwand-dev
-RUN pecl install imagick
-RUN docker-php-ext-enable imagick
+    apt install --yes --no-install-suggests --no-install-recommends libmagickwand-dev && \
+    pecl install imagick          && \
+    docker-php-ext-enable imagick && \
 
 # Redis
-RUN pecl install redis
-RUN docker-php-ext-enable redis
+    pecl install redis          && \
+    docker-php-ext-enable redis && \
 
 # Limpiar todo
-RUN apt autoremove --yes && apt clean
-RUN rm -rf /var/lib/apt/lists/*
+    apt autoremove --yes && apt clean && \
+    rm -rf /var/lib/apt/lists/* && \
+    rm -rf /tmp/pear ~/.pearrc
 
 # tzdata
 RUN unlink /etc/localtime; ln -s /usr/share/zoneinfo/UTC /etc/localtime; dpkg-reconfigure -f noninteractive tzdata
 
 # añadir .ini de PHP
-ADD ini/exif.ini         /usr/local/etc/php/conf.d/exif.ini
-ADD ini/iconv.ini        /usr/local/etc/php/conf.d/iconv.ini
-ADD ini/mbstring.ini     /usr/local/etc/php/conf.d/mbstring.ini
-ADD ini/session.ini      /usr/local/etc/php/conf.d/session.ini
-ADD ini/timezone.ini     /usr/local/etc/php/conf.d/timezone.ini
-ADD ini/various.ini      /usr/local/etc/php/conf.d/various.ini
-ADD ini/www.conf         /usr/local/etc/php-fpm.d/www.conf
-ADD ini/www.conf.default /usr/local/etc/php-fpm.d/www.conf.default
-ADD ini/xdebug.ini       /usr/local/etc/php/conf.d/xdebug.ini
-ADD ini/zlib.ini         /usr/local/etc/php/conf.d/zlib.ini
+COPY ini/*       /usr/local/etc/php/conf.d/
+COPY php-fpm.d/* /usr/local/etc/php-fpm.d/
 
 # Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN composer --version
-ENV COMPOSER_CACHE_DIR=/dev/null
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
+    composer --version && \
+    COMPOSER_CACHE_DIR=/dev/null
 
 RUN mkdir /home/docker \
     && groupadd -r docker -g ${GID} \
     && useradd -u ${UID} -r -g docker -d /home/docker -s /bin/bash -c "Docker user" docker \
     && echo "docker:docker" | chpasswd \
     && chown -R docker:docker /home/docker
+
 ADD vimrc /home/docker/.vimrc
 
 COPY docker-php-entrypoint /usr/local/bin/
