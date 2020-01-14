@@ -13,7 +13,9 @@ RUN apt update && \
 
 # Install required dependencies
     apt install --yes --no-install-suggests --no-install-recommends \
-        apt-transport-https apt-utils ccze curl git gnupg libonig-dev unzip openssl sudo  tree wget vim && \
+        apt-transport-https apt-utils ccze curl git gnupg libonig-dev unzip openssl sudo tree wget vim && \
+    apt install --yes --no-install-suggests --no-install-recommends \
+        libpq-dev libxslt-dev librabbitmq-dev libssh-dev && \
 
 # Install MySQL 
     echo "deb http://repo.mysql.com/apt/debian/ stretch mysql-5.7\n\
@@ -35,6 +37,11 @@ deb-src http://repo.mysql.com/apt/debian/ stretch mysql-5.7" >> /etc/apt/sources
     docker-php-ext-configure pdo_mysql --with-pdo-mysql && \
     docker-php-ext-install   pdo_mysql && \
 
+# Pgsql PDO
+
+    docker-php-ext-configure pdo_pgsql --with-pdo-pgsql && \
+    docker-php-ext-install   pdo pdo_pgsql && \
+
 # Mbstring
     docker-php-ext-configure mbstring --enable-mbstring=all && \
     docker-php-ext-install   mbstring && \
@@ -53,7 +60,8 @@ deb-src http://repo.mysql.com/apt/debian/ stretch mysql-5.7" >> /etc/apt/sources
     docker-php-ext-install mysqli  && \
     docker-php-ext-install opcache && \
     docker-php-ext-install zip     && \
-    docker-php-ext-install bcmath && \
+    docker-php-ext-install bcmath  && \
+    docker-php-ext-install xsl     && \
 
 # Pecl update
     pecl update-channels && \
@@ -66,6 +74,10 @@ deb-src http://repo.mysql.com/apt/debian/ stretch mysql-5.7" >> /etc/apt/sources
 # Redis
     pecl install redis          && \
     docker-php-ext-enable redis && \
+
+# AMQP
+    pecl install amqp          && \
+    docker-php-ext-enable amqp && \
 
 # Limpiar todo
     apt autoremove --yes && apt clean && \
