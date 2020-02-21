@@ -8,7 +8,7 @@ before_script:
 - docker info
 - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $REGISTRY_HOST
 
-build:7.4.0:
+build:7.4:
   stage: build
   tags:
     - docker
