@@ -14,9 +14,9 @@ build:7.4:
     - docker
     - runners
   script:
-    - docker build --no-cache --build-arg PHP_VERSION=7.4.0-fpm-buster -t $REGISTRY_HOST/$CI_PROJECT_PATH/7.4.0:$CI_BUILD_REF -t $REGISTRY_HOST/$CI_PROJECT_PATH/7.4.0:latest .
-    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/7.4.0:$CI_BUILD_REF
-    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/7.4.0:latest
+    - docker build --no-cache --build-arg PHP_VERSION=7.4-fpm-buster -t $REGISTRY_HOST/$CI_PROJECT_PATH/7.4:$CI_BUILD_REF -t $REGISTRY_HOST/$CI_PROJECT_PATH/7.4:latest .
+    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/7.4:$CI_BUILD_REF
+    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/7.4:latest
 
 build:7.3.3:
   stage: build
