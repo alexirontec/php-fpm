@@ -24,9 +24,9 @@ build:7.3.28:
     - docker
     - runners
   script:
-    - docker build --no-cache --build-arg PHP_VERSION=7.3.28-fpm-buster -t $REGISTRY_HOST/$CI_PROJECT_PATH/7.3.3:$CI_BUILD_REF -t $REGISTRY_HOST/$CI_PROJECT_PATH/7.3.3:latest .
-    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/7.3.3:$CI_BUILD_REF
-    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/7.3.3:latest
+    - docker build --no-cache --build-arg PHP_VERSION=7.3.28-fpm-buster -t $REGISTRY_HOST/$CI_PROJECT_PATH/7.3.28:$CI_BUILD_REF -t $REGISTRY_HOST/$CI_PROJECT_PATH/7.3.28:latest .
+    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/7.3.28:$CI_BUILD_REF
+    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/7.3.28:latest
 
 build:7.2.34:
   stage: build
@@ -34,9 +34,9 @@ build:7.2.34:
     - docker
     - runners
   script:
-    - docker build --no-cache --build-arg PHP_VERSION=7.2.34-fpm-buster -t $REGISTRY_HOST/$CI_PROJECT_PATH/7.2.15:$CI_BUILD_REF -t $REGISTRY_HOST/$CI_PROJECT_PATH/7.2.15:latest .
-    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/7.2.15:$CI_BUILD_REF
-    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/7.2.15:latest
+    - docker build --no-cache --build-arg PHP_VERSION=7.2.34-fpm-buster -t $REGISTRY_HOST/$CI_PROJECT_PATH/7.2.34:$CI_BUILD_REF -t $REGISTRY_HOST/$CI_PROJECT_PATH/7.2.34:latest .
+    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/7.2.34:$CI_BUILD_REF
+    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/7.2.34:latest
 
 build:7.1.30:
   stage: build
@@ -44,9 +44,9 @@ build:7.1.30:
     - docker
     - runners
   script:
-    - docker build --no-cache --build-arg PHP_VERSION=7.1.30-fpm-buster -t $REGISTRY_HOST/$CI_PROJECT_PATH/7.1.27:$CI_BUILD_REF -t $REGISTRY_HOST/$CI_PROJECT_PATH/7.1.27:latest .
-    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/7.1.27:$CI_BUILD_REF
-    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/7.1.27:latest
+    - docker build --no-cache --build-arg PHP_VERSION=7.1.30-fpm-buster -t $REGISTRY_HOST/$CI_PROJECT_PATH/7.1.30:$CI_BUILD_REF -t $REGISTRY_HOST/$CI_PROJECT_PATH/7.1.30:latest .
+    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/7.1.30:$CI_BUILD_REF
+    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/7.1.30:latest
 
 #build:7.0:
 #  stage: build

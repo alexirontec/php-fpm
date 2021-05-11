@@ -49,7 +49,7 @@ deb-src http://repo.mysql.com/apt/debian/ stretch mysql-5.7" >> /etc/apt/sources
 # GD
 #    docker-php-ext-configure gd --enable-gd-native-ttf --with-jpeg-dir=/usr/lib --with-freetype-dir=/usr/include/ && \
 #    docker-php-ext-install   gd && \
-    docker-php-ext-configure gd --with-freetype --with-jpeg && \
+    docker-php-ext-configure gd && \
     docker-php-ext-install   gd && \
 
 # intl
