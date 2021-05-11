@@ -13,7 +13,7 @@ RUN apt update && \
 
 # Install required dependencies
     apt install --yes --no-install-suggests --no-install-recommends \
-        apt-transport-https apt-utils ccze curl git gnupg libonig-dev unzip openssl sudo tree wget vim && \
+        apt-transport-https apt-utils ccze curl git gnupg libonig-dev unzip openssl sudo tree wget vim libldap2-dev libaio-dev libxml2-dev xfonts-75dpi fontconfig libjpeg62-turbo libxrender1 xfonts-base && \
     apt install --yes --no-install-suggests --no-install-recommends \
         libpq-dev libxslt-dev librabbitmq-dev libssh-dev && \
 
@@ -56,12 +56,14 @@ deb-src http://repo.mysql.com/apt/debian/ stretch mysql-5.7" >> /etc/apt/sources
     docker-php-ext-configure intl && \
     docker-php-ext-install   intl && \
 
-    docker-php-ext-install iconv   && \
-    docker-php-ext-install mysqli  && \
-    docker-php-ext-install opcache && \
-    docker-php-ext-install zip     && \
-    docker-php-ext-install bcmath  && \
-    docker-php-ext-install xsl     && \
+    docker-php-ext-install iconv           && \
+    docker-php-ext-install mysqli          && \
+    docker-php-ext-install opcache         && \
+    docker-php-ext-install zip             && \
+    docker-php-ext-install bcmath          && \
+    docker-php-ext-install xsl             && \
+    docker-php-ext-install ldap            && \
+    docker-php-ext-install -j$(nproc) soap && \
 
 # Pecl update
     pecl update-channels && \
@@ -108,3 +110,4 @@ COPY docker-php-entrypoint /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-php-entrypoint
 
 USER docker
+RUN echo "alias ll\='ls -lh'" >> ~/.bashrc
