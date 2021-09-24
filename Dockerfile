@@ -109,7 +109,7 @@ ADD vimrc /home/docker/.vimrc
 COPY docker-php-entrypoint /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-php-entrypoint
 
-RUN addsuser docker sudo
+RUN adduser docker sudo
 RUN echo "docker ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 USER docker
