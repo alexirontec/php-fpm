@@ -109,5 +109,11 @@ ADD vimrc /home/docker/.vimrc
 COPY docker-php-entrypoint /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-php-entrypoint
 
+RUN addsuser docker sudo
+RUN echo "docker ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
 USER docker
 RUN echo "alias ll\='ls -lh'" >> ~/.bashrc
+
+ARG ENV=production
+ONBUILD RUN if [ "$ENV" != "production" ]; then sudo rm /usr/local/etc/php/conf.d/opcache.ini; fi
