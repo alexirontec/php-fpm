@@ -14,12 +14,12 @@ RUN apt update && \
         libpq-dev libxslt-dev librabbitmq-dev libssh-dev && \
 
 # Install MySQL 
-    echo "deb http://repo.mysql.com/apt/debian/ stretch mysql-5.7\n\
-deb-src http://repo.mysql.com/apt/debian/ stretch mysql-5.7" >> /etc/apt/sources.list.d/mysql.list && \
+#    echo "deb http://repo.mysql.com/apt/debian/ stretch mysql-5.7\n\
+#deb-src http://repo.mysql.com/apt/debian/ stretch mysql-5.7" >> /etc/apt/sources.list.d/mysql.list && \
 
-    wget -O /tmp/RPM-GPG-KEY-mysql https://repo.mysql.com/RPM-GPG-KEY-mysql && \
-    apt-key add /tmp/RPM-GPG-KEY-mysql && \
-    apt update && apt --yes upgrade && \
+#    wget -O /tmp/RPM-GPG-KEY-mysql https://repo.mysql.com/RPM-GPG-KEY-mysql && \
+#    apt-key add /tmp/RPM-GPG-KEY-mysql && \
+#    apt update && apt --yes upgrade && \
 
 # Install dependencies for the image processing
     apt install --yes --no-install-suggests --no-install-recommends \
