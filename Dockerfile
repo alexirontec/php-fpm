@@ -6,10 +6,6 @@ ARG UID=1000
 ARG GID=1000
 
 RUN apt update && \
-    apt upgrade --yes && \
-    apt autoremove --yes && \
-    apt remove --yes mysql* mariadb* && \
-    apt autoremove --yes && \
 
 # Install required dependencies
     apt install --yes --no-install-suggests --no-install-recommends \
