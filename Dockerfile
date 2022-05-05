@@ -27,7 +27,7 @@ RUN apt update && \
 
 # Others
     apt install --yes --no-install-suggests --no-install-recommends \
-        libicu-dev libmcrypt-dev libzip-dev zlib1g-dev mysql-client && \
+        libicu-dev libmcrypt-dev libzip-dev zlib1g-dev && \
 
 # MySQL PDO
     docker-php-ext-configure pdo_mysql --with-pdo-mysql && \
